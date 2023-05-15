@@ -4,4 +4,6 @@
 
 body {
   height: 100%;
+  background: url("../Icons/Background.svg");
+  background-repeat: no-repeat;
 }
