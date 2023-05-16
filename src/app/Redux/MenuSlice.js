@@ -8,5 +8,11 @@ const initialState = {
 export const MenuSlice = createSlice({
   name: "MenuSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    SetMenu: (state, action) => {
+      const Value = action.payload;
+
+      state.Open = Value;
+    },
+  },
 });
