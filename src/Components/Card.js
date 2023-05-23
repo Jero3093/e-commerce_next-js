@@ -10,7 +10,7 @@ function Card({ Data }) {
   return (
     <Link
       href={`./details`}
-      className="flex flex-col items-center bg-white w-40 h-56 justify-center rounded-lg p-2 gap-y-3 shadow-lg shadow-zinc-600"
+      className="flex flex-col items-center backdrop-blur-sm w-40 h-56 justify-center rounded-lg p-2 gap-y-3 shadow-lg shadow-zinc-600 hover:scale-110"
       key={Data.id}
       onClick={() => Dispatch(ProductSlice.actions.SetDetails(Data.id))}
     >
