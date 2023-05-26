@@ -34,22 +34,23 @@ export default function page() {
           {/* Header */}
           <Header />
           {/* Product Content */}
-          <main className="flex flex-col mt-8">
+          <main className="flex flex-col mt-8 md:flex-row md:mx-6 md:gap-x-4 md:mb-5 md:self-center">
             {/* Image */}
             <div className="bg-white w-72 h-full shadow-lg shadow-zinc-500 p-5 border-2 border-zinc-400 rounded-lg self-center">
               <Image src={Product.image} width={250} height={260} />
             </div>
             {/* Information */}
-            <section className="flex flex-col gap-y-3 p-4 mt-4">
+            <section className="flex flex-col gap-y-3 p-4 mt-4 lg:gap-y-5">
               <p className="text-lg text-zinc-600">{Product.category}</p>
               <p className="text-2xl">{Product.name}</p>
               <p className="text-xl">{Product.description}</p>
               <p className="text-xl font-bold">$ {Product.price}</p>
+              <p className="text-xl font-bold">Stock: {Product.stock}</p>
             </section>
           </main>
           {/* Cart Button */}
           <button
-            className="flex items-center justify-center self-center w-80 h-12 rounded-full bg-emerald-600 shadow-lg shadow-emerald-800 mt-2 mb-5"
+            className="flex items-center justify-center self-center w-80 h-12 rounded-full bg-emerald-500 shadow-lg shadow-emerald-800 mt-2 mb-5"
             onClick={AddToCart}
           >
             <p className="text-2xl font-bold">Add to Cart</p>

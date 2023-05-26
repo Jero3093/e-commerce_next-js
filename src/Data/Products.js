@@ -7,6 +7,7 @@ export const Products = [
     image: require("../Products/product1.jpg"),
     price: 1000,
     category: "Bags",
+    stock: 30,
   },
   {
     id: "2",
@@ -16,6 +17,8 @@ export const Products = [
     image: require("../Products/product2.jpg"),
     price: 1200,
     category: "Jackets",
+    stock: 4,
+
   },
   {
     id: "3",
@@ -25,6 +28,8 @@ export const Products = [
     image: require("../Products/product3.jpg"),
     price: 1400,
     category: "Jackets",
+    stock: 20,
+
   },
   {
     id: "4",
@@ -34,6 +39,7 @@ export const Products = [
     image: require("../Products/product4.jpg"),
     price: 1600,
     category: "Shirts",
+    stock: 40,
   },
   {
     id: "5",
@@ -43,6 +49,7 @@ export const Products = [
     image: require("../Products/product5.jpg"),
     price: 1800,
     category: "Pants",
+    stock: 10,
   },
   {
     id: "6",
@@ -52,5 +59,6 @@ export const Products = [
     image: require("../Products/product6.jpg"),
     price: 2000,
     category: "Electronics",
+    stock: 3,
   },
 ];
