@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDH-xT3pggeDdabKSAqzyOQqxK-WtWhG00",
@@ -8,9 +8,10 @@ const firebaseConfig = {
   storageBucket: "e-commerce-nextjs-e7f31.appspot.com",
   messagingSenderId: "148990088347",
   appId: "1:148990088347:web:ec9793a40e6e6f2191623e",
-  measurementId: "G-PF3DTTF4FL"
+  measurementId: "G-PF3DTTF4FL",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+export const auth = getAuth(app);
