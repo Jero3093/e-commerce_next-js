@@ -6,4 +6,5 @@ body {
   height: 100vh;
   background: url("../Icons/Background.svg");
   background-repeat: no-repeat;
+  background-size: cover;
 }

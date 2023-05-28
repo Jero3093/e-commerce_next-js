@@ -1,5 +1,5 @@
+"use client";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import Logo from "@/Icons/Icon.png";
 import Image from "next/image";
 import {
@@ -37,13 +37,13 @@ function LogIn() {
           userEmail: userSession.email,
         })
       );
-      Router.replace("/home");
+      Router.replace("/");
     }
   };
 
   const HandleLogIn = async (e) => {
     e.preventDefault();
-    if (Email === "" && Password === "") {
+    if (Email === "" || Password === "") {
       toast.error("Please complete the form to continue");
     } else {
       try {
@@ -64,8 +64,9 @@ function LogIn() {
             setIsLoading(false);
           })
           .finally(() => {
+            toast.success("You logged into your account");
             setIsLoading(false);
-            Router.replace("/home");
+            Router.replace("/");
           });
       } catch (error) {
         console.log(error.message);
@@ -76,10 +77,11 @@ function LogIn() {
 
   const HandelCreateUser = async (e) => {
     e.preventDefault();
-    if (Email === "" && Password === "") {
+    if (Email === "" || Password === "") {
       toast.error("Please complete the form to continue");
     } else {
       try {
+        setIsLoading(true);
         await createUserWithEmailAndPassword(auth, Email, Password)
           .then((user) => {
             Dispatch(
@@ -89,9 +91,12 @@ function LogIn() {
               })
             );
             localStorage.setItem("userSession", data);
+            setIsLoading(false);
           })
           .finally(() => {
-            Router.replace("/home");
+            toast.success("You successfully created a new user");
+            setIsLoading(false);
+            Router.replace("/");
           });
       } catch (error) {
         console.log(error.message);
@@ -100,10 +105,10 @@ function LogIn() {
   };
 
   return (
-    <main className="flex h-full min-h-screen flex-col items-center justify-center">
+    <main className="flex min-h-screen flex-col items-center justify-center">
       <Toaster richColors position="top-center" />
       {/* Login Form */}
-      <form className="flex flex-col items-center p-9 rounded-lg shadow-sm shadow-slate-800">
+      <form className="flex flex-col items-center p-9 rounded-lg lg:shadow-sm lg:shadow-slate-500">
         <Image
           src={Logo}
           width={100}
@@ -115,24 +120,26 @@ function LogIn() {
         <div className="flex flex-col gap-y-7 items-center">
           {/* Email */}
           <div className="flex flex-col gap-y-4">
-            <label className="text-2xl font-semibold">Email:</label>
+            <label className="text-2xl font-semibold text-white">Email:</label>
             <input
               type="text"
               name="email"
               value={Email}
-              className="w-80 h-12 p-2 border-b-2 bg-transparent border-black placeholder:text-zinc-700"
+              className="w-80 h-12 p-2 border-b-2 bg-transparent border-zinc-500 placeholder:text-zinc-600 text-white"
               placeholder="Enter your Email..."
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           {/* Password */}
           <div className="flex flex-col gap-y-4">
-            <label className="text-2xl font-semibold">Password:</label>
+            <label className="text-2xl font-semibold text-white">
+              Password:
+            </label>
             <input
               type="password"
               name="password"
               value={Password}
-              className="w-80 h-12 p-2 border-b-2 bg-transparent border-black placeholder:text-zinc-700"
+              className="w-80 h-12 p-2 border-b-2 bg-transparent border-zinc-500 placeholder:text-zinc-600 text-white"
               placeholder="Enter your Password..."
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -144,7 +151,7 @@ function LogIn() {
               height="30"
               width="30"
               radius="9"
-              color="gray"
+              color="white"
               ariaLabel="loading"
               wrapperStyle
               wrapperClass
@@ -153,7 +160,7 @@ function LogIn() {
             <input
               type="submit"
               value={"Create User"}
-              className="mt-9 text-3xl font-bold cursor-pointer"
+              className="mt-9 text-3xl font-bold cursor-pointer text-white"
               onClick={HandelCreateUser}
             />
           )
@@ -162,7 +169,7 @@ function LogIn() {
             height="30"
             width="30"
             radius="9"
-            color="gray"
+            color="white"
             ariaLabel="loading"
             wrapperStyle
             wrapperClass
@@ -171,26 +178,26 @@ function LogIn() {
           <input
             type="submit"
             value={"Log In"}
-            className="mt-9 text-3xl font-bold cursor-pointer"
+            className="mt-9 text-3xl font-bold cursor-pointer text-white"
             onClick={HandleLogIn}
           />
         )}
         <div className="mt-5">
           {FormState ? (
-            <p className="text-zinc-600 text-md">
+            <p className="text-zinc-400 text-md">
               If you already have an account {""}
               <span
-                className="cursor-pointer text-black font-semibold hover:border-b-2 hover:border-black"
+                className="cursor-pointer font-semibold hover:border-b-2 hover:border-white hover:text-white text-zinc-400"
                 onClick={() => setFormState(false)}
               >
                 Log In
               </span>
             </p>
           ) : (
-            <p className="text-zinc-600 text-md">
+            <p className="text-zinc-400 text-md">
               If you don't have an account {""}
               <span
-                className="cursor-pointer text-black font-semibold hover:border-b-2 hover:border-black"
+                className="cursor-pointer font-semibold hover:border-b-2 hover:border-white hover:text-white text-zinc-400"
                 onClick={() => setFormState(true)}
               >
                 Create User

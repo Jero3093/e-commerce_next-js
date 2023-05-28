@@ -23,27 +23,27 @@ function Header({ User }) {
       {/* Logo */}
       <div className="flex flex-row items-center gap-x-3">
         <Image src={Icon} className="w-14 h-14 drop-shadow-md" />
-        <p className="font-bold text-2xl hidden md:flex">E-Commerce</p>
+        <p className="font-bold text-2xl hidden md:flex text-white">E-Commerce</p>
       </div>
       {/* Menu Links */}
       <div className="flex-row items-center gap-x-4 mt-4 hidden lg:flex">
         <Link
           href="./"
-          className="text-xl font-bold hover:text-2xl hover:border-b-2 border-black"
+          className="text-xl font-bold hover:text-2xl hover:border-b-2 border-white text-white"
           onClick={() => Dispatch(MenuSlice.actions.SetMenu(false))}
         >
           Home
         </Link>
         <Link
           href={"./contact"}
-          className="text-xl font-bold hover:text-2xl hover:border-b-2 border-black"
+          className="text-xl font-bold hover:text-2xl hover:border-b-2 border-white text-white "
           onClick={() => Dispatch(MenuSlice.actions.SetMenu(false))}
         >
           Contact
         </Link>
         <Link
           href={"#"}
-          className="text-xl font-bold hover:text-2xl hover:border-b-2 border-black"
+          className="text-xl font-bold hover:text-2xl hover:border-b-2 border-white text-white"
           onClick={() => Dispatch(MenuSlice.actions.SetMenu(false))}
         >
           My Cart
