@@ -65,7 +65,7 @@ export default function Home() {
             onChange={(text) => setSearchText(text.target.value)}
           />
           {/* Products List */}
-          <div className="grid flex-col grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 place-items-center mt-7 gap-y-7">
+          <div className="grid flex-col grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 place-items-center mt-7 gap-y-7 pb-4">
             <ProductsList />
           </div>
           {/* Footer */}

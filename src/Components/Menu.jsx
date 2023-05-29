@@ -1,9 +1,8 @@
 import React from "react";
-import CloseIcon from "@/Icons/Close.png";
-import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { MenuSlice } from "@/app/Redux/MenuSlice";
+import { IoCloseOutline } from "react-icons/io5";
 
 function Menu() {
   const Dispatch = useDispatch();
@@ -15,7 +14,7 @@ function Menu() {
         className="mr-auto p-2"
         onClick={() => Dispatch(MenuSlice.actions.SetMenu(false))}
       >
-        <Image src={CloseIcon} width={45} height={45}  />
+        <IoCloseOutline className="w-14 h-14 text-zinc-400" />
       </button>
       <div className="flex flex-col items-center gap-y-4 mt-4">
         <Link

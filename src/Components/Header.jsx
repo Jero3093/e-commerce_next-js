@@ -1,9 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Icon from "../Icons/Icon.png";
-import MenuIcon from "../Icons/Menu.png";
-import UserIcon from "../Icons/user.png";
-import UserConfigIcon from "../Icons/user_config.png";
+import { IoPersonCircleOutline, IoSettingsSharp, IoMenuOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { MenuSlice } from "@/app/Redux/MenuSlice";
 import Link from "next/link";
@@ -18,12 +16,14 @@ function Header({ User }) {
         onClick={() => Dispatch(MenuSlice.actions.SetMenu(true))}
         className="cursor-pointer hover:animate-pulse lg:hidden"
       >
-        <Image src={MenuIcon} className="w-11" alt="Logo" />
+        <IoMenuOutline className="w-14 h-14 text-zinc-300" />
       </div>
       {/* Logo */}
       <div className="flex flex-row items-center gap-x-3">
         <Image src={Icon} className="w-14 h-14 drop-shadow-md" />
-        <p className="font-bold text-2xl hidden md:flex text-white">E-Commerce</p>
+        <p className="font-bold text-2xl hidden md:flex text-white">
+          E-Commerce
+        </p>
       </div>
       {/* Menu Links */}
       <div className="flex-row items-center gap-x-4 mt-4 hidden lg:flex">
@@ -52,11 +52,13 @@ function Header({ User }) {
       {/* User Button */}
       {User ? (
         <Link href={"/user"}>
-          <Image src={UserConfigIcon} alt="user" width={47} height={47} />
+          <IoSettingsSharp className="w-10 h-10 text-zinc-300"  />
+          {/* <Image src={UserConfigIcon} alt="user" width={47} height={47} /> */}
         </Link>
       ) : (
         <Link href={"/login"}>
-          <Image src={UserIcon} width={47} height={47} alt="user" />
+          <IoPersonCircleOutline className="w-12 h-12 text-zinc-300" />
+          {/* <Image src={UserIcon} width={47} height={47} alt="user" /> */}
         </Link>
       )}
     </div>
