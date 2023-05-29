@@ -5,13 +5,15 @@ import Image from "next/image";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "@/firebase/Firebase";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { UserSlice } from "../Redux/UserSlice";
-import { Toaster, toast } from "sonner";
-import { Audio } from "react-loader-spinner";
+} from "firebase/auth"; //Firebase Auth Functions
+import { auth } from "@/firebase/Firebase"; //Firebase Authentication
+import { useRouter } from "next/navigation"; //Navigation
+import { useDispatch } from "react-redux"; //Redux
+import { UserSlice } from "../Redux/UserSlice"; //UserSlice
+import { Toaster, toast } from "sonner"; //Notifications
+import { Audio } from "react-loader-spinner"; //Loader
+import { database } from "@/firebase/Firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 function LogIn() {
   useEffect(() => {
@@ -21,6 +23,7 @@ function LogIn() {
   const [FormState, setFormState] = useState(false); //Form Login - Create User State
   const [IsLoading, setIsLoading] = useState(false); //Loading State
 
+  const [Username, setUsername] = useState("");
   const [Email, setEmail] = useState(""); //Email State
   const [Password, setPassword] = useState(""); //Password State
 
@@ -77,20 +80,29 @@ function LogIn() {
 
   const HandelCreateUser = async (e) => {
     e.preventDefault();
-    if (Email === "" || Password === "") {
+    if (Username === "" || Email === "" || Password === "") {
       toast.error("Please complete the form to continue");
     } else {
       try {
         setIsLoading(true);
         await createUserWithEmailAndPassword(auth, Email, Password)
-          .then((user) => {
+          .then(async (user) => {
             Dispatch(
               UserSlice.actions.SetUser({
                 userId: user.user.uid,
                 userEmail: user.user.email,
               })
             );
+            const data = JSON.stringify({
+              userId: user.user.uid,
+              userEmail: user.user.email,
+            });
             localStorage.setItem("userSession", data);
+            await addDoc(collection(database, "users"), {
+              userId: user.user.uid,
+              username: Username,
+              userEmail: user.user.email,
+            });
             setIsLoading(false);
           })
           .finally(() => {
@@ -117,7 +129,25 @@ function LogIn() {
           className="mb-14"
         />
         {/* Inputs Container */}
-        <div className="flex flex-col gap-y-7 items-center">
+        <div className="flex flex-col gap-y-7 items-centefr">
+          {FormState ? (
+            //Username
+            <div className="flex flex-col gap-y-4">
+              <label className="text-2xl font-semibold text-white">
+                Username:
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={Username}
+                className="w-80 h-12 p-2 border-b-2 bg-transparent border-zinc-500 placeholder:text-zinc-600 text-white"
+                placeholder="Enter your Username..."
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+          ) : (
+            ""
+          )}
           {/* Email */}
           <div className="flex flex-col gap-y-4">
             <label className="text-2xl font-semibold text-white">Email:</label>
