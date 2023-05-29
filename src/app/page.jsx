@@ -10,21 +10,21 @@ import Card from "@/Components/Card";
 
 export default function Home() {
   useEffect(() => {
-    if (CurrentUser) {
-      GetUserSession();
-    }
+    GetUserSession();
   }, []);
 
   const [SearchText, setSearchText] = useState(""); //Input Text Value State
 
   const GetUserSession = () => {
     const userSession = JSON.parse(localStorage.getItem("userSession"));
-    Dispatch(
-      UserSlice.actions.SetUser({
-        userId: userSession.userId,
-        userEmail: userSession.userEmail,
-      })
-    );
+    if (userSession) {
+      Dispatch(
+        UserSlice.actions.SetUser({
+          userId: userSession.userId,
+          userEmail: userSession.userEmail,
+        })
+      );
+    }
   }; //Get the Current User Session from the Local Storage
 
   const Dispatch = useDispatch(); //Dispatch Hook

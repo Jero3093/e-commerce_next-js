@@ -13,6 +13,8 @@ import Menu from "@/Components/Menu";
 export default function Contact() {
   const MenuOpen = useSelector((state) => state.MenuSlice.Open);
 
+  const CurrentUser = useSelector((state) => state.UserSlice.User)
+
   return (
     <div className="flex min-h-screen flex-col bg-sky-950 lg:pl-36 lg:pr-36">
       {MenuOpen ? (
@@ -20,7 +22,7 @@ export default function Contact() {
       ) : (
         <>
           {/* Header */}
-          <Header />
+          <Header User={CurrentUser} />
           {/* Contacts */}
           <div className="flex flex-col gap-y-3 items-center mt-5">
             {/* Whatsapp */}
