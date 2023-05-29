@@ -1,29 +1,32 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { Toaster, toast } from "sonner";
-import Header from "@/Components/Header";
-import Menu from "@/Components/Menu";
-import Footer from "@/Components/Footer";
+import { useSelector } from "react-redux"; //Redux
+import { Toaster, toast } from "sonner"; //Notification
+import Header from "@/Components/Header"; //Header Component
+import Menu from "@/Components/Menu"; //Menu Component
+import Footer from "@/Components/Footer"; //Footer Component
 
 export default function Details() {
-  const CurrentUser = useSelector((state) => state.UserSlice.User);
+  const CurrentUser = useSelector((state) => state.UserSlice.User); //Current User Session State
 
-  const Product = useSelector((state) => state.ProductSlice.Details);
+  const Product = useSelector((state) => state.ProductSlice.Details); //Product Slice
 
-  const MenuOpen = useSelector((state) => state.MenuSlice.Open);
+  const MenuOpen = useSelector((state) => state.MenuSlice.Open); //Menu Slice
 
   const AddToCart = () => {
     const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
-
-    toast.promise(promise, {
-      loading: "Loading...",
-      success: () => {
-        return `${Product.name} has been added to cart`;
-      },
-      error: "Error",
-    });
+    if (!CurrentUser) {
+      toast.error("You must be logged in to add a product to your cart");
+    } else {
+      toast.promise(promise, {
+        loading: "Loading...",
+        success: () => {
+          return `${Product.name} has been added to cart`;
+        },
+        error: "Error",
+      });
+    }
   };
 
   return (
@@ -32,7 +35,7 @@ export default function Details() {
         <Menu />
       ) : (
         <>
-          <Toaster position="top-center" />
+          <Toaster position="top-center" richColors />
           {/* Header */}
           <Header User={CurrentUser} />
           {/* Product Content */}
