@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux"; //Redux
+import { useSelector, useDispatch } from "react-redux"; //Redux
 import { Toaster, toast } from "sonner"; //Notification
+import { CartSlice } from "../Redux/CartSlice"; //Cart Slice
 import Header from "@/Components/Header"; //Header Component
 import Menu from "@/Components/Menu"; //Menu Component
 import Footer from "@/Components/Footer"; //Footer Component
@@ -13,6 +14,8 @@ export default function Details() {
   const Product = useSelector((state) => state.ProductSlice.Details); //Product Slice
 
   const MenuOpen = useSelector((state) => state.MenuSlice.Open); //Menu Slice
+
+  const Dispatch = useDispatch(); //Dispatch Hook
 
   const AddToCart = () => {
     const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
@@ -26,6 +29,7 @@ export default function Details() {
         },
         error: "Error",
       });
+      Dispatch(CartSlice.actions.SetCartItem({ Data: Product }));
     }
   };
 
@@ -42,7 +46,7 @@ export default function Details() {
           <main className="flex flex-col mt-8 md:flex-row md:mx-6 md:gap-x-4 md:mb-5 md:self-center">
             {/* Image */}
             <div className="bg-white w-72 h-full shadow-lg shadow-zinc-500 p-5 border-2 border-zinc-400 rounded-lg self-center">
-              <Image src={Product.image} width={250} height={260} />
+              <Image src={Product.image} width={250} height={260} alt="photo" />
             </div>
             {/* Information */}
             <section className="flex flex-col gap-y-3 p-4 mt-4 lg:gap-y-5">
