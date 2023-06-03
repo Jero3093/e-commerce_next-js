@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   User: null,
+  UserImage: [],
 };
 
 export const UserSlice = createSlice({
@@ -15,6 +16,14 @@ export const UserSlice = createSlice({
     },
     LogOutUser: (state) => {
       state.User = null;
+    },
+    SetUserImage: (state, action) => {
+      const Image = action.payload;
+
+      state.UserImage.push(Image);
+    },
+    ClearUserImage: (state) => {
+      state.UserImage = [];
     },
   },
 });
