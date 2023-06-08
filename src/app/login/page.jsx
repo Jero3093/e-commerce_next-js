@@ -12,8 +12,9 @@ import { useDispatch } from "react-redux"; //Redux
 import { UserSlice } from "../Redux/UserSlice"; //UserSlice
 import { Toaster, toast } from "sonner"; //Notifications
 import { Audio } from "react-loader-spinner"; //Loader
-import { database } from "@/firebase/Firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { database } from "@/firebase/Firebase"; //Firebase Database
+import { collection, addDoc } from "firebase/firestore"; //Firestore
+import { motion } from "framer-motion";
 
 function LogIn() {
   useEffect(() => {
@@ -121,18 +122,29 @@ function LogIn() {
       <Toaster richColors position="top-center" />
       {/* Login Form */}
       <form className="flex flex-col items-center p-9 rounded-lg lg:shadow-sm lg:shadow-slate-500">
-        <Image
-          src={Logo}
-          width={100}
-          height={100}
-          alt="Logo"
-          className="mb-14"
-        />
+        <motion.div
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Image
+            src={Logo}
+            width={100}
+            height={100}
+            alt="Logo"
+            className="mb-14"
+          />
+        </motion.div>
         {/* Inputs Container */}
         <div className="flex flex-col gap-y-7 items-centefr">
           {FormState ? (
             //Username
-            <div className="flex flex-col gap-y-4">
+            <motion.div
+              className="flex flex-col gap-y-4"
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               <label className="text-2xl font-semibold text-white">
                 Username:
               </label>
@@ -144,12 +156,17 @@ function LogIn() {
                 placeholder="Enter your Username..."
                 onChange={(e) => setUsername(e.target.value)}
               />
-            </div>
+            </motion.div>
           ) : (
             ""
           )}
           {/* Email */}
-          <div className="flex flex-col gap-y-4">
+          <motion.div
+            className="flex flex-col gap-y-4"
+            initial={{ x: 10, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             <label className="text-2xl font-semibold text-white">Email:</label>
             <input
               type="text"
@@ -159,9 +176,14 @@ function LogIn() {
               placeholder="Enter your Email..."
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
+          </motion.div>
           {/* Password */}
-          <div className="flex flex-col gap-y-4">
+          <motion.div
+            className="flex flex-col gap-y-4"
+            initial={{ x: -10, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
             <label className="text-2xl font-semibold text-white">
               Password:
             </label>
@@ -173,7 +195,7 @@ function LogIn() {
               placeholder="Enter your Password..."
               onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
+          </motion.div>
         </div>
         {FormState ? (
           IsLoading ? (
@@ -187,11 +209,14 @@ function LogIn() {
               wrapperClass
             />
           ) : (
-            <input
+            <motion.input
               type="submit"
               value={"Create User"}
               className="mt-9 text-3xl font-bold cursor-pointer text-white"
               onClick={HandelCreateUser}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
             />
           )
         ) : IsLoading ? (
@@ -205,16 +230,24 @@ function LogIn() {
             wrapperClass
           />
         ) : (
-          <input
+          <motion.input
             type="submit"
             value={"Log In"}
             className="mt-9 text-3xl font-bold cursor-pointer text-white"
             onClick={HandleLogIn}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
           />
         )}
         <div className="mt-5">
           {FormState ? (
-            <p className="text-zinc-400 text-md">
+            <motion.p
+              className="text-zinc-400 text-md"
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
               If you already have an account {""}
               <span
                 className="cursor-pointer font-semibold hover:border-b-2 hover:border-white hover:text-white text-zinc-400"
@@ -222,9 +255,14 @@ function LogIn() {
               >
                 Log In
               </span>
-            </p>
+            </motion.p>
           ) : (
-            <p className="text-zinc-400 text-md">
+            <motion.p
+              className="text-zinc-400 text-md"
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
               If you don't have an account {""}
               <span
                 className="cursor-pointer font-semibold hover:border-b-2 hover:border-white hover:text-white text-zinc-400"
@@ -232,7 +270,7 @@ function LogIn() {
               >
                 Create User
               </span>
-            </p>
+            </motion.p>
           )}
         </div>
       </form>
