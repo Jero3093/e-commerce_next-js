@@ -5,6 +5,7 @@ const initialState = {
   Products: Products,
   CartItems: [],
   CartTotal: 0,
+  CartModal: false,
 };
 
 export const CartSlice = createSlice({
@@ -26,7 +27,18 @@ export const CartSlice = createSlice({
       state.CartItems = state.CartItems.filter((p) => p.id !== CartItem.id);
 
       state.CartTotal = state.CartTotal -= CartItem.price;
-
+    },
+    SetCartModal: (state) => {
+      if (!state.CartModal) {
+        state.CartModal = true;
+      } else {
+        state.CartModal = false;
+      }
+    },
+    ClearCart: (state) => {
+      state.CartItems = [];
     },
   },
 });
+
+export const CartItemsCount = (state) => state.CartSlice.CartItems.length;

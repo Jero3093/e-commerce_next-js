@@ -8,6 +8,7 @@ export const Products = [
     price: 1000,
     category: "Bags",
     stock: 30,
+    quantity: 1,
   },
   {
     id: "2",
@@ -18,7 +19,7 @@ export const Products = [
     price: 1200,
     category: "Jackets",
     stock: 4,
-
+    quantity: 1,
   },
   {
     id: "3",
@@ -29,7 +30,7 @@ export const Products = [
     price: 1400,
     category: "Jackets",
     stock: 20,
-
+    quantity: 1,
   },
   {
     id: "4",
@@ -40,6 +41,7 @@ export const Products = [
     price: 1600,
     category: "Shirts",
     stock: 40,
+    quantity: 1,
   },
   {
     id: "5",
@@ -50,6 +52,7 @@ export const Products = [
     price: 1800,
     category: "Pants",
     stock: 10,
+    quantity: 1,
   },
   {
     id: "6",
@@ -60,5 +63,6 @@ export const Products = [
     price: 2000,
     category: "Electronics",
     stock: 3,
+    quantity: 1,
   },
 ];
