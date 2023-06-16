@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux"; //Redux
 import { Toaster, toast } from "sonner"; //Notifications
 import { auth, UploadProfileImage, storage } from "@/firebase/Firebase"; //Firebase
@@ -8,9 +10,9 @@ import { useRouter } from "next/navigation"; //Navigation Router
 import { UserSlice } from "../Redux/UserSlice"; //User Slice
 import { database } from "@/firebase/Firebase"; //Firestore Database
 import { getDocs, collection, query, where } from "firebase/firestore"; //Firestore Functions
-import { ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage"; //Firebase Storage
 import { Audio } from "react-loader-spinner"; //Loader
-import Image from "next/image";
+import { motion } from "framer-motion"; //Framer Motion
 import Menu from "@/Components/Menu"; //Menu Component
 import Header from "@/Components/Header"; //Header Component
 
@@ -131,23 +133,40 @@ function User() {
               {/* User Info */}
               <div className="flex flex-col p-3 h-96 mt-3 md:self-center md:border-l-2 md:border-sky-900/20 md:border-r-2 md:pl-10 md:pr-10 lg:pl-32 lg:pr-32">
                 {/* User Image */}
-                {UserImgURL ? (
-                  <Image
-                    src={`${UserImgURL}`}
-                    width={200}
-                    height={200}
-                    alt="User Image"
-                    className="rounded-full self-center w-52 h-52 mb-5 shadow-lg shadow-emerald-500"
-                  />
+                {UserImage ? (
+                  <motion.div
+                    className="flex w-52 h-52 self-center"
+                    initial={{ width: 0, height: 0, opacity: 0 }}
+                    animate={{ width: 208, height: 208, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <Image
+                      src={`${UserImgURL}`}
+                      width={200}
+                      height={200}
+                      alt="User Image"
+                      className="rounded-full self-center w-52 h-52 mb-7 shadow-lg shadow-emerald-500"
+                    />
+                  </motion.div>
                 ) : (
                   ""
                 )}
                 {/* Title */}
-                <p className="text-2xl text-white font-semibold">
+                <motion.p
+                  className="text-2xl text-white font-semibold mt-3"
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
                   User Information:
-                </p>
+                </motion.p>
                 {/* Info Container */}
-                <div className="flex flex-col pl-4 pt-4 gap-y-6">
+                <motion.div
+                  className="flex flex-col pl-4 pt-4 gap-y-6"
+                  initial={{ x: -100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
                   {/* Username */}
                   <p className="text-xl text-white">
                     Username: {UserData.username}
@@ -156,14 +175,17 @@ function User() {
                   <p className="text-xl text-white">
                     Email: {UserData.userEmail}
                   </p>
-                </div>
-                {UserImgURL ? (
+                </motion.div>
+                {UserImage ? (
                   ""
                 ) : (
                   //Upload User Image Form
-                  <form
-                    className="flex flex-col gap-y-4 mt-3 items-center shadow-sm shadow-sky-900/30 p-4"
+                  <motion.form
+                    className="flex flex-col gap-y-4 mt-3 items-center border-b-2 border-sky-900/30 p-4"
                     onSubmit={(e) => e.preventDefault()}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
                   >
                     <input
                       type="file"
@@ -186,15 +208,29 @@ function User() {
                     >
                       Upload Image
                     </button>
-                  </form>
+                  </motion.form>
+                )}
+                {/* Admin */}
+                {UserData.admin && (
+                  <motion.div
+                    initial={{ y: -10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="text-2xl self-center text-white font-semibold mt-10"
+                  >
+                    <Link href={"/admin"}>Administrate</Link>
+                  </motion.div>
                 )}
                 {/* Log Out Button */}
-                <button
+                <motion.button
                   className="w-80 h-12 p-2 bg-rose-500 self-center rounded-full text-2xl font-semibold mt-20"
                   onClick={HandleLogOut}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
                 >
                   Log Out
-                </button>
+                </motion.button>
               </div>
             </>
           )}

@@ -25,6 +25,7 @@ function Header() {
         UserSlice.actions.SetUser({
           userId: userSession.userId,
           userEmail: userSession.userEmail,
+          admin: userSession.admin,
         })
       );
     }
