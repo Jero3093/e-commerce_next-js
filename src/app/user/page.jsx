@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { IoPencilSharp } from "react-icons/io5"; //Icons
 import { useSelector, useDispatch } from "react-redux"; //Redux
 import { Toaster, toast } from "sonner"; //Notifications
 import { auth, UploadProfileImage, storage } from "@/firebase/Firebase"; //Firebase
@@ -220,7 +221,10 @@ function User() {
                     transition={{ delay: 0.4 }}
                     className="text-2xl self-center text-white font-semibold mt-10"
                   >
-                    <Link href={"/admin"}>Administrate</Link>
+                    <Link href={"/admin"} className="flex flex-row items-center gap-x-3">
+                      Administrate{" "}
+                      <IoPencilSharp className="text-white w-6 h6" />
+                    </Link>
                   </motion.div>
                 )}
                 {/* Log Out Button */}
