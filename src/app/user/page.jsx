@@ -26,7 +26,7 @@ function User() {
 
   const [UserData, setUserData] = useState([]); //User Data from Database
 
-  const [UserImage, setUserImage] = useState(null);
+  const [UserImage, setUserImage] = useState(null); //User Image State
 
   const GetUserImage = async () => {
     //Current User Logged Id
@@ -39,6 +39,8 @@ function User() {
       await getDownloadURL(ref(storage, `userImg/${CurrentUserUID}`))
         .then((url) => {
           Dispatch(UserSlice.actions.SetUserImage(url));
+          setUserImage(url);
+          setIsLoading(false);
         })
         .finally(() => {
           setIsLoading(false);
