@@ -13,7 +13,7 @@ import { UserSlice } from "../Redux/UserSlice"; //UserSlice
 import { Toaster, toast } from "sonner"; //Notifications
 import { Audio } from "react-loader-spinner"; //Loader
 import { database } from "@/firebase/Firebase"; //Firebase Database
-import { collection, addDoc } from "firebase/firestore"; //Firestore
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore"; //Firestore
 import { motion } from "framer-motion";
 
 function LogIn() {
@@ -39,6 +39,7 @@ function LogIn() {
         UserSlice.actions.SetUser({
           userId: userSession.userId,
           userEmail: userSession.email,
+          admin: userSession.admin,
         })
       );
       Router.replace("/");
@@ -53,27 +54,43 @@ function LogIn() {
       try {
         setIsLoading(true);
         await signInWithEmailAndPassword(auth, Email, Password)
-          .then((user) => {
-            Dispatch(
-              UserSlice.actions.SetUser({
-                userId: user.user.uid,
-                userEmail: user.user.email,
-              })
-            );
-            const data = JSON.stringify({
-              userId: user.user.uid,
-              userEmail: user.user.email,
+          .then(async (user) => {
+            await getDocs(
+              query(
+                collection(database, "users"),
+                where("userId", "==", user.user.uid)
+              )
+            ).then((dbuser) => {
+              if (dbuser) {
+                dbuser.forEach((userdb) => {
+                  const data = JSON.stringify({
+                    userId: userdb.data().userId,
+                    userEmail: userdb.data().userEmail,
+                    admin: userdb.data().admin,
+                  });
+                  localStorage.setItem("userSession", data);
+                  Dispatch(
+                    UserSlice.actions.SetUser({
+                      userId: userdb.data().userId,
+                      userEmail: userdb.data().userEmail,
+                      admin: userdb.data().admin,
+                    })
+                  );
+                  toast.success("You logged into your account");
+                  Router.replace("/");
+                });
+              }
             });
-            localStorage.setItem("userSession", data);
             setIsLoading(false);
           })
           .finally(() => {
-            toast.success("You logged into your account");
             setIsLoading(false);
-            Router.replace("/");
           });
       } catch (error) {
+        toast.error("This account is not registered, please try again");
         console.log(error.message);
+        setEmail("");
+        setPassword("");
         setIsLoading(false);
       }
     }
@@ -86,8 +103,8 @@ function LogIn() {
     } else {
       try {
         setIsLoading(true);
-        await createUserWithEmailAndPassword(auth, Email, Password)
-          .then(async (user) => {
+        await createUserWithEmailAndPassword(auth, Email, Password).then(
+          async (user) => {
             Dispatch(
               UserSlice.actions.SetUser({
                 userId: user.user.uid,
@@ -104,15 +121,20 @@ function LogIn() {
               username: Username,
               userEmail: user.user.email,
             });
-            setIsLoading(false);
-          })
-          .finally(() => {
             toast.success("You successfully created a new user");
-            setIsLoading(false);
             Router.replace("/");
-          });
+          }
+        );
+        setIsLoading(false);
       } catch (error) {
         console.log(error.message);
+        toast.error(
+          "Something went wrong, please try again with another email"
+        );
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setIsLoading(false);
       }
     }
   };
@@ -136,7 +158,7 @@ function LogIn() {
           />
         </motion.div>
         {/* Inputs Container */}
-        <div className="flex flex-col gap-y-7 items-centefr">
+        <div className="flex flex-col gap-y-7 items-center">
           {FormState ? (
             //Username
             <motion.div
