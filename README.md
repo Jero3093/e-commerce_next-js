@@ -28,10 +28,13 @@ La "E-Commerce App" es una aplicación web diseñada para ofrecer a los usuarios
 ## Instalación
 
 1. Clona este repositorio en tu máquina local.
-2. Abre una terminal en la carpeta raíz del proyecto.
-3. Ejecuta el comando `npm install` para instalar las dependencias.
-4. Ejecuta el comando `npm run dev` para iniciar la aplicación en modo de desarrollo.
-5. Abre tu navegador web y ve a `http://localhost:3000` para ver la aplicación en funcionamiento.
+2. Crea un nuevo proyecto en Firebase (https://console.firebase.google.com) y habilita los servicios de Firebase Firestore, Authentication y Storage.
+3. En la autenticación de Firebase debes incluir la funcion de Correo o Email como metodo de autenticación.
+4. Obtén las credenciales de Firebase para tu proyecto y configura las variables de entorno en un archivo `.env.local` en la raíz del proyecto. Asegúrate de incluir las siguientes variables: NEXT_PUBLIC_FIREBASE_API_KEY=<tu_api_key> NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=<tu_domain> NEXT_PUBLIC_FIREBASE_PROJECT_ID=<tu_project_id> NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=<tu_storage_bucket> NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<tu_messaging_sender_id> NEXT_PUBLIC_FIREBASE_APP_ID=<tu_app_id>
+5. Abre una terminal en la carpeta raíz del proyecto.
+6. Ejecuta el comando `npm install` para instalar las dependencias.
+7. Ejecuta el comando `npm run dev` para iniciar la aplicación en modo de desarrollo.
+8. Abre tu navegador web y ve a `http://localhost:3000` para ver la aplicación en funcionamiento.
 
 ## Contribución
 
