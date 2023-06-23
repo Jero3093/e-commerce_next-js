@@ -7,6 +7,7 @@ import { database } from "@/firebase/Firebase"; //Firebase Database
 import { Audio } from "react-loader-spinner"; //Loader
 import { useRouter } from "next/navigation"; //Router
 import { Categories } from "@/Data/Categories"; //Categories Data
+import { motion } from "framer-motion";
 import Header from "@/Components/Header"; //Header
 import Menu from "@/Components/Menu"; //Menu
 import BackButton from "@/Components/BackButton"; //BackButton
@@ -122,20 +123,36 @@ export default function NewProduct() {
             <>
               {/* Back Button */}
               <BackButton />
-              <h1 className="text-white font-semibold self-center text-2xl mt-3">
+              <motion.h1
+                className="text-white font-semibold self-center text-2xl mt-3"
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
                 Add New Product
-              </h1>
+              </motion.h1>
               {/* Add Product Form */}
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col items-center mt-5 gap-y-3"
               >
                 {/* Name */}
-                <div className="flex flex-col gap-y-3">
+                <motion.div
+                  className="flex flex-col gap-y-3"
+                  initial={{ x: 10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
                   <label htmlFor="name" className="text-white">
                     Name:{" "}
                     {CheckName && (
-                      <span className="text-red-500">(Name already taken)</span>
+                      <motion.span
+                        className="text-red-500"
+                        initial={{ x: 10, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                      >
+                        (Name already taken)
+                      </motion.span>
                     )}
                   </label>
                   <input
@@ -151,9 +168,14 @@ export default function NewProduct() {
                     required
                     autoComplete="off"
                   />
-                </div>
+                </motion.div>
                 {/* Price */}
-                <div className="flex flex-col gap-y-3">
+                <motion.div
+                  className="flex flex-col gap-y-3"
+                  initial={{ x: -10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
                   <label htmlFor="price" className="text-white">
                     Price:
                   </label>
@@ -166,9 +188,14 @@ export default function NewProduct() {
                     onChange={(e) => setPrice(e.target.value)}
                     required
                   />
-                </div>
+                </motion.div>
                 {/* Stock */}
-                <div className="flex flex-col gap-y-3">
+                <motion.div
+                  className="flex flex-col gap-y-3"
+                  initial={{ x: 10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
                   <label htmlFor="stock" className="text-white">
                     Stock:
                   </label>
@@ -181,9 +208,14 @@ export default function NewProduct() {
                     onChange={(e) => setStock(e.target.value)}
                     required
                   />
-                </div>
+                </motion.div>
                 {/* Category */}
-                <div className="flex flex-col gap-y-3">
+                <motion.div
+                  className="flex flex-col gap-y-3"
+                  initial={{ x: -10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
                   <label htmlFor="category" className="text-white">
                     Category:
                   </label>
@@ -204,9 +236,14 @@ export default function NewProduct() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </motion.div>
                 {/* Description */}
-                <div className="flex flex-col gap-y-3">
+                <motion.div
+                  className="flex flex-col gap-y-3"
+                  initial={{ x: 10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                >
                   <label htmlFor="description" className="text-white">
                     Description:{" "}
                     <span className="text-zinc-400">(Max 300 characters)</span>
@@ -220,12 +257,15 @@ export default function NewProduct() {
                     required
                     maxLength={300}
                   />
-                </div>
-                <input
+                </motion.div>
+                <motion.input
                   type="submit"
                   value="Add Product"
                   className="text-2xl text-emerald-400 cursor-pointer"
                   onClick={AddProductToDB}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.7 }}
                 />
               </form>
             </>
