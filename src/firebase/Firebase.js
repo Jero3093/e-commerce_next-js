@@ -3,15 +3,16 @@ import { getAuth } from "firebase/auth"; //Authentication
 import { getFirestore } from "firebase/firestore"; //Firestore Database
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+require("dotenv").config();
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDH-xT3pggeDdabKSAqzyOQqxK-WtWhG00",
-  authDomain: "e-commerce-nextjs-e7f31.firebaseapp.com",
-  projectId: "e-commerce-nextjs-e7f31",
-  storageBucket: "e-commerce-nextjs-e7f31.appspot.com",
-  messagingSenderId: "148990088347",
-  appId: "1:148990088347:web:ec9793a40e6e6f2191623e",
-  measurementId: "G-PF3DTTF4FL",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
