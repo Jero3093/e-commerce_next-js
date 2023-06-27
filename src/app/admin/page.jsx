@@ -87,7 +87,7 @@ function AdminPage() {
               </motion.span>
               {/* Options List */}
               <section className="grid grid-cols-1 self-center items-center pl-2 pr-2 mt-3 w-full gap-y-4 md:grid-cols-2 md:gap-x-4">
-                <AdminOptionCard name="List of Products" href="#" Soon={true} />
+                <AdminOptionCard name="List of Products" href="/listofproducts" Soon={false} />
                 <AdminOptionCard
                   name="Add New Product"
                   href="/newproduct"
