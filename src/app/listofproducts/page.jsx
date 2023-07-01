@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image"; //Next Image
 import { useSelector, useDispatch } from "react-redux"; //Redux
-import { ListOfProductSlice } from "../Redux/ListOfProductSlice";
+import { ListOfProductSlice } from "../Redux/ListOfProductSlice"; //Redux Slice
 import { useRouter } from "next/navigation"; //Router
 import { Audio } from "react-loader-spinner"; //Loader
 import {
@@ -13,19 +14,19 @@ import {
 import { toast, Toaster } from "sonner";
 import { getDocs, collection } from "firebase/firestore"; //Firebase Firestore
 import { database } from "@/firebase/Firebase"; //Firebase Database
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; //Framer Motion
 import Header from "@/Components/Header";
 import Menu from "@/Components/Menu";
 import ModalEditProduct from "@/Components/ModalEditProduct";
 import BackButton from "@/Components/BackButton";
 
-export default function EditProducts() {
+export default function ListOfProducts() {
   useEffect(() => {
-    // if (!CurrentUser || !CurrentUser.admin) {
-    //   Router.replace("/");
-    // } else {
-    GetDbProducts();
-    // }
+    if (!CurrentUser || !CurrentUser.admin) {
+      Router.replace("/");
+    } else {
+      GetDbProducts();
+    }
   }, []);
 
   const [IsLoading, setIsLoading] = useState(false); //Loading State
@@ -70,6 +71,9 @@ export default function EditProducts() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
+            {product.image && (
+              <Image src={product.image} width={80} height={80} />
+            )}
             <div className="flex flex-col items-center w-24">
               <p className="text-white text-xl">Name:</p>
               <h1 className="text-zinc-400 break-keep">
