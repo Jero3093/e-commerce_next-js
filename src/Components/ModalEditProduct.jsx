@@ -14,33 +14,35 @@ import {
   runTransaction,
   doc,
 } from "firebase/firestore"; //Firebase Firestore
-import { database } from "@/firebase/Firebase"; //Firebase Database
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; //Firebase Storage
+import { database, storage } from "@/firebase/Firebase"; //Firebase Database
 
 function ModalEditProduct() {
   useEffect(() => {
     GetProductDB();
   }, []);
 
-  const [IsLoading, setIsLoading] = useState(false);
+  const [IsLoading, setIsLoading] = useState(false); //Loading state
 
   const EditProductData = useSelector(
     (state) => state.ListOfProductSlice.ModalData
-  );
+  ); //The data of the product that will be edited
 
-  const [Name, setName] = useState(`${EditProductData.product.name}`);
-  const [Price, setPrice] = useState(`${EditProductData.product.price}`);
-  const [Stock, setStock] = useState(`${EditProductData.product.stock}`);
+  const [Name, setName] = useState(`${EditProductData.product.name}`); //The name of the product
+  const [Price, setPrice] = useState(`${EditProductData.product.price}`); //The price of the product
+  const [Stock, setStock] = useState(`${EditProductData.product.stock}`); //The stock of the product
   const [Category, setCategory] = useState(
     `${EditProductData.product.category}`
-  );
+  ); //The category of the product
   const [Available, setAvailable] = useState(
     `${EditProductData.product.available}`
-  );
+  ); //The availability of the product
   const [Description, setDescription] = useState(
     `${EditProductData.product.description}`
-  );
+  ); //The description of the product
+  const [ProdImage, setProdImage] = useState(null); //The image of the product
 
-  const [ProductDocId, setProductDocId] = useState(null);
+  const [ProductDocId, setProductDocId] = useState(null); //The document id of the product
 
   const Dispatch = useDispatch();
 
@@ -69,10 +71,14 @@ function ModalEditProduct() {
 
     try {
       setIsLoading(true);
+
       await runTransaction(database, async (transaction) => {
         const doc = await transaction.get(DocRef);
+
         if (!doc.exists()) {
           console.log("Document does not exist!");
+          setIsLoading(false);
+          return;
         }
 
         const newName = (doc.data().name = Name);
@@ -82,14 +88,35 @@ function ModalEditProduct() {
         const newAvailable = (doc.data().available = Available ? false : true);
         const newDescription = (doc.data().description = Description);
 
-        transaction.update(DocRef, {
-          name: newName,
-          price: newPrice,
-          stock: newStock,
-          category: newCategory,
-          available: newAvailable,
-          description: newDescription,
-        });
+        if (ProdImage) {
+          const StorageReference = ref(
+            storage,
+            `products/${EditProductData.product.id}`
+          );
+
+          try {
+            await uploadBytes(StorageReference, ProdImage).then(async () => {
+              console.log("Image uploaded successfully!");
+
+              setProdImage(null);
+
+              const ImageUrl = await getDownloadURL(StorageReference);
+
+              transaction.update(DocRef, {
+                name: newName,
+                price: newPrice,
+                stock: newStock,
+                category: newCategory,
+                available: newAvailable ? true : false,
+                description: newDescription,
+                image: ImageUrl,
+              });
+            });
+          } catch (error) {
+            console.log(error.message);
+            return;
+          }
+        }
       });
       toast.success("Product was updated successfully!");
       setIsLoading(false);
@@ -98,7 +125,7 @@ function ModalEditProduct() {
       toast.error("Something went wrong, please try again!");
       console.log(error.message);
     }
-  }; //Update the product content in the database
+  }; //Update the product content in the database and upload the image to the storage
 
   return (
     <main className="w-full h-full bg-zinc-700/80 absolute top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center">
@@ -195,6 +222,12 @@ function ModalEditProduct() {
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="file"
+                onChange={(e) => setProdImage(e.target.files[0])}
+              />
+            </form>
             <div className="flex flex-row gap-x-2">
               <button
                 className="w-full h-10 bg-emerald-500 text-white rounded-md justify-center flex items-center"
