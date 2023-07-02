@@ -1,6 +1,6 @@
 # E-Commerce App
 
-Este proyecto es una aplicación de comercio electrónico desarrollada con Next.js, Redux, Redux Toolkit, Firebase, Tailwind CSS y Framer Motion. El objetivo principal de esta aplicación es proporcionar a los usuarios una plataforma intuitiva y atractiva para comprar productos en línea.
+Este proyecto es una aplicación de comercio electrónico desarrollada con Next.js, Redux, Redux Toolkit, Firebase, Tailwind CSS, Framer Motion y Sonner. El objetivo principal de esta aplicación es proporcionar a los usuarios una plataforma intuitiva y atractiva para comprar productos en línea.
 
 ## Descripción del proyecto
 
@@ -14,6 +14,7 @@ La "E-Commerce App" es una aplicación web diseñada para ofrecer a los usuarios
 - [Firebase](https://firebase.google.com): Una plataforma de desarrollo de aplicaciones en la nube que proporciona una amplia gama de servicios, como autenticación de usuarios, almacenamiento de datos en tiempo real y hospedaje web.
 - [Tailwind CSS](https://tailwindcss.com): Un framework de CSS utilitario que permite crear interfaces web rápidamente al utilizar clases prediseñadas y personalizables.
 - [Framer Motion](https://www.framer.com/motion/): Una biblioteca de animaciones y transiciones declarativas para React.
+- [Sonner](https://sonnerdocs.com): Una biblioteca para enviar notificaciones en aplicaciones web.
 
 ## Características principales
 
@@ -24,6 +25,7 @@ La "E-Commerce App" es una aplicación web diseñada para ofrecer a los usuarios
 - Funcionalidad de carrito de compras para agregar y eliminar productos.
 - Proceso de pago seguro utilizando Firebase Authentication y Firebase Firestore.
 - Seguimiento de pedidos y estado de envío.
+- Notificaciones a través de Sonner.
 
 ## Instalación
 
