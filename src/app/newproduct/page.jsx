@@ -78,6 +78,7 @@ export default function NewProduct() {
         CreatedBy: CurrentUser.userId,
         CreatedAt: currentDate,
         available: false,
+        image: null,
       };
       try {
         setIsLoading(true);
