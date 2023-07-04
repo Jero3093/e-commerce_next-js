@@ -72,7 +72,7 @@ export default function ListOfProducts() {
             transition={{ delay: 0.4 }}
           >
             {product.image && (
-              <Image src={product.image} width={80} height={80} />
+              <Image src={product.image} width={80} height={80} alt="product" />
             )}
             <div className="flex flex-col items-center w-24">
               <p className="text-white text-xl">Name:</p>

@@ -34,9 +34,7 @@ function ModalEditProduct() {
   const [Category, setCategory] = useState(
     `${EditProductData.product.category}`
   ); //The category of the product
-  const [Available, setAvailable] = useState(
-    `${EditProductData.product.available}`
-  ); //The availability of the product
+  const [Available, setAvailable] = useState(EditProductData.product.available); //The availability of the product
   const [Description, setDescription] = useState(
     `${EditProductData.product.description}`
   ); //The description of the product
@@ -69,11 +67,14 @@ function ModalEditProduct() {
   const UpdateProductContent = async () => {
     const DocRef = doc(database, "products", ProductDocId);
 
+    let ImageURL = null;
+
     try {
       setIsLoading(true);
-
       await runTransaction(database, async (transaction) => {
         const doc = await transaction.get(DocRef);
+
+        const CurrentProductImage = doc.data().image;
 
         if (!doc.exists()) {
           console.log("Document does not exist!");
@@ -85,7 +86,7 @@ function ModalEditProduct() {
         const newPrice = (doc.data().price = Price);
         const newStock = (doc.data().stock = Stock);
         const newCategory = (doc.data().category = Category);
-        const newAvailable = (doc.data().available = Available ? false : true);
+        const newAvailable = (doc.data().available = Available);
         const newDescription = (doc.data().description = Description);
 
         if (ProdImage) {
@@ -93,30 +94,30 @@ function ModalEditProduct() {
             storage,
             `products/${EditProductData.product.id}`
           );
-
           try {
             await uploadBytes(StorageReference, ProdImage).then(async () => {
               console.log("Image uploaded successfully!");
-
               setProdImage(null);
-
-              const ImageUrl = await getDownloadURL(StorageReference);
-
-              transaction.update(DocRef, {
-                name: newName,
-                price: newPrice,
-                stock: newStock,
-                category: newCategory,
-                available: newAvailable ? true : false,
-                description: newDescription,
-                image: ImageUrl,
-              });
+              ImageURL = await getDownloadURL(StorageReference);
             });
           } catch (error) {
+            toast.error("Something went wrong, please try again later!");
             console.log(error.message);
             return;
           }
+        } else {
+          ImageURL = CurrentProductImage;
         }
+
+        transaction.update(DocRef, {
+          name: newName,
+          price: newPrice,
+          stock: newStock,
+          category: newCategory,
+          available: newAvailable,
+          description: newDescription,
+          image: ImageURL,
+        });
       });
       toast.success("Product was updated successfully!");
       setIsLoading(false);
@@ -205,10 +206,10 @@ function ModalEditProduct() {
                 id="available"
                 className="w-full h-10 rounded-md border border-gray-300 px-2"
                 value={Available}
-                onChange={(e) => setAvailable(e.target.value)}
+                onChange={(e) => setAvailable(Boolean(e.target.value))}
               >
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
               </select>
             </div>
             <div className="flex flex-col gap-y-2">
