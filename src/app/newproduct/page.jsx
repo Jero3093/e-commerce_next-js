@@ -25,8 +25,8 @@ export default function NewProduct() {
 
   const [Name, setName] = useState(""); //Name State
   const [Description, setDescription] = useState(""); //Description State
-  const [Price, setPrice] = useState(""); //Price State
-  const [Stock, setStock] = useState(""); //Stock State
+  const [Price, setPrice] = useState(); //Price State
+  const [Stock, setStock] = useState(); //Stock State
   const [Category, setCategory] = useState(); //Category State
 
   const CurrentUser = useSelector((state) => state.UserSlice.User); //Current User
@@ -56,8 +56,8 @@ export default function NewProduct() {
     if (
       Name === "" ||
       Description === "" ||
-      Price === "" ||
-      Stock === "" ||
+      Price < 0 ||
+      Stock < 0 ||
       Category === ""
     ) {
       toast.error("Please fill all the fields to continue");
@@ -93,7 +93,7 @@ export default function NewProduct() {
         toast.success("Product was been added successfully");
       } catch (error) {
         setIsLoading(false);
-        toast.error("Error adding product: ", error);
+        toast.error("Error adding product: ", error.message);
         console.log(error.message);
       }
     }
