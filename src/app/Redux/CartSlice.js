@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Products } from "@/Data/Products";
 
 const initialState = {
-  Products: Products,
   CartItems: [],
   CartTotal: 0,
   CartModal: false,
@@ -13,20 +11,26 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     SetCartItem: (state, action) => {
-      const Item = action.payload.Data;
+      const Item = action.payload.Data; //Data form Details
+      const Items = state.CartItems.find((p) => p.id === Item.id); //Filter the item from the cart
 
-      const CartItem = state.Products.find((p) => p.id === Item.id);
-
-      state.CartItems.push(CartItem);
-
-      state.CartTotal = state.CartTotal += CartItem.price;
+      if (Items) {
+        Items.quantity += 1;
+      } else {
+        state.CartItems.push({ ...Item, quantity: 1 });
+      }
+      state.CartTotal = state.CartTotal += Item.price;
     },
     DeleteCartItem: (state, action) => {
       const CartItem = action.payload.Data;
 
       state.CartItems = state.CartItems.filter((p) => p.id !== CartItem.id);
 
-      state.CartTotal = state.CartTotal -= CartItem.price;
+      if (CartItem.quantity > 1) {
+        state.CartTotal = state.CartTotal -= CartItem.price * CartItem.quantity;
+      } else {
+        state.CartTotal = state.CartTotal -= CartItem.price;
+      }
     },
     SetCartModal: (state) => {
       if (!state.CartModal) {
@@ -37,8 +41,32 @@ export const CartSlice = createSlice({
     },
     ClearCart: (state) => {
       state.CartItems = [];
+      state.CartTotal = 0;
+    },
+    IncreaseQuantity: (state, action) => {
+      const ItemId = action.payload;
+
+      const Item = state.CartItems.find((p) => p.id === ItemId);
+
+      if (Item.quantity < Item.stock) {
+        Item.quantity += 1;
+        state.CartTotal = state.CartTotal += Item.price;
+      }
+    },
+    DecreaseQuantity: (state, action) => {
+      const ItemId = action.payload;
+
+      const Item = state.CartItems.find((p) => p.id === ItemId);
+
+      if (Item.quantity === 1) {
+        state.CartItems = state.CartItems.filter((p) => p.id !== ItemId);
+        state.CartTotal = state.CartTotal -= Item.price * Item.quantity;
+      } else {
+        state.CartTotal = state.CartTotal -= Item.price;
+        Item.quantity -= 1;
+      }
     },
   },
 });
 
-export const CartItemsCount = (state) => state.CartSlice.CartItems.length;
+export const CartItemsCount = (state) => state.CartSlice.CartItems.length; // This is a selector function that will be used in the CartModal component to display the number of items in the cart.

@@ -7,9 +7,11 @@ import { IoPerson, IoCard } from "react-icons/io5";
 import { Toaster, toast } from "sonner";
 
 function CartModal() {
-  const [Name, setName] = useState("");
+  const [Name, setName] = useState(""); //Name State
 
-  const [CreditCard, setCreditCard] = useState("");
+  const [CreditCard, setCreditCard] = useState(""); //Credit Card State
+
+  const Dispatch = useDispatch(); //Redux Dispatch
 
   const Pay = () => {
     const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
@@ -21,14 +23,12 @@ function CartModal() {
         success: () => {
           Dispatch(CartSlice.actions.SetCartModal());
           Dispatch(CartSlice.actions.ClearCart());
-          return "The payment has successfully, the products will be delivered soon.";
+          return `${Name} the payment has successfully, the products will be delivered soon.`;
         },
         error: "Error please try again",
       });
     }
-  };
-
-  const Dispatch = useDispatch();
+  }; //Pay Function
 
   return (
     <main className="w-full h-full bg-zinc-700/80 absolute top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center">
@@ -88,7 +88,11 @@ function CartModal() {
         {/* Cancel Button */}
         <button
           className="text-xl font-semibold self-center mt-auto"
-          onClick={() => Dispatch(CartSlice.actions.SetCartModal())}
+          onClick={() => {
+            setName("");
+            setCreditCard("");
+            Dispatch(CartSlice.actions.SetCartModal());
+          }}
         >
           Cancel
         </button>
