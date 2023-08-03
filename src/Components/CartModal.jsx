@@ -1,31 +1,64 @@
 "use client";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { CartSlice } from "@/app/Redux/CartSlice";
-import { motion } from "framer-motion";
-import { IoPerson, IoCard } from "react-icons/io5";
-import { Toaster, toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux"; //Redux
+import { CartSlice } from "@/app/Redux/CartSlice"; //Redux Slice
+import { motion } from "framer-motion"; //Framer Motion
+import { IoPerson, IoCard } from "react-icons/io5"; //Icons
+import { Toaster, toast } from "sonner"; //Notification
+import { runTransaction, doc } from "firebase/firestore"; //Firestore Transaction
+import { database } from "@/firebase/Firebase"; //Firestore Database
 
 function CartModal() {
+  const [IsLoading, setIsLoading] = useState(false); //Loading State
+
   const [Name, setName] = useState(""); //Name State
 
   const [CreditCard, setCreditCard] = useState(""); //Credit Card State
 
+  const CartItems = useSelector((state) => state.CartSlice.CartItems); //Cart Items
+
   const Dispatch = useDispatch(); //Redux Dispatch
 
-  const Pay = () => {
-    const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+  const Pay = async () => {
     if (Name === "" || CreditCard === "") {
       toast.error("Please enter your name and card number");
     } else {
-      toast.promise(promise, {
-        loading: "loading...",
-        success: () => {
-          Dispatch(CartSlice.actions.SetCartModal());
-          Dispatch(CartSlice.actions.ClearCart());
-          return `${Name} the payment has successfully, the products will be delivered soon.`;
-        },
-        error: "Error please try again",
+      setIsLoading(true);
+
+      let completedTransactions = 0;
+
+      CartItems.forEach(async (item) => {
+        const ProductId = item.id;
+
+        const DocRef = doc(database, "products", ProductId);
+        try {
+          await runTransaction(database, async (transaction) => {
+            const Doc = await transaction.get(DocRef);
+            if (!Doc.exists()) {
+              console.log("Document does not exist!");
+            }
+
+            let UpdateStock = Doc.data().stock - item.quantity;
+
+            transaction.update(Doc, { stock: UpdateStock });
+
+            console.log("Transaction successfully committed!");
+
+            completedTransactions++;
+
+            if (completedTransactions === CartItems.length) {
+              setIsLoading(false);
+              setName("");
+              setCreditCard("");
+              Dispatch(CartSlice.actions.SetCartModal());
+              Dispatch(CartSlice.actions.ClearCart());
+            }
+          });
+        } catch (error) {
+          setIsLoading(false);
+          toast.error("Error please try again later");
+          console.log(error.message);
+        }
       });
     }
   }; //Pay Function

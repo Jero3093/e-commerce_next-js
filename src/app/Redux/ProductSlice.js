@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Products } from "@/Data/Products";
 
 const initialState = {
-  Products: Products,
   Details: null,
+  DBProducts: [],
 };
 
 export const ProductSlice = createSlice({
@@ -11,11 +10,15 @@ export const ProductSlice = createSlice({
   initialState,
   reducers: {
     SetDetails: (state, action) => {
-      const Id = action.payload;
+      state.Details = action.payload;
+    },
+    SetDBProducts: (state, action) => {
+      const Data = action.payload;
 
-      const Product = state.Products.find((p) => p.id === Id);
-
-      state.Details = Product;
+      state.DBProducts.push(Data);
+    },
+    SetCleaerDBProducts: (state) => {
+      state.DBProducts = [];
     },
   },
 });

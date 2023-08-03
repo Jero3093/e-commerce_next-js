@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux"; //Redux
 import { Toaster, toast } from "sonner"; //Notification
 import { CartSlice } from "../Redux/CartSlice"; //Cart Slice
-import { motion } from "framer-motion";
-import Header from "@/Components/Header"; //Header Component
-import Menu from "@/Components/Menu"; //Menu Component
-import Footer from "@/Components/Footer"; //Footer Component
+import { motion } from "framer-motion"; //Animation
+import Header from "@/Components/Header"; //Header
+import Menu from "@/Components/Menu"; //Menu
+import Footer from "@/Components/Footer"; //Footer
+import BackButton from "@/Components/BackButton"; //Back Button
 
 export default function Details() {
   useEffect(() => {
@@ -53,6 +54,8 @@ export default function Details() {
           <Toaster position="top-center" richColors />
           {/* Header */}
           <Header />
+          {/* Back Button */}
+          <BackButton />
           {/* Product Content */}
           <main className="flex flex-col mt-8 md:flex-row md:mx-6 md:gap-x-4 md:mb-5 md:self-center">
             {/* Image */}
@@ -63,7 +66,7 @@ export default function Details() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.1 }}
             >
-              <Image src={Product.image} width={320} height={320} alt="photo"  />
+              <Image src={Product.image} width={320} height={320} alt="photo" />
             </motion.div>
             {/* Information */}
             <motion.section
