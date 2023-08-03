@@ -37,7 +37,7 @@ La "E-Commerce App" es una aplicación web diseñada para ofrecer a los usuarios
 6. Ejecuta el comando `npm install` para instalar las dependencias.
 7. Ejecuta el comando `npm run dev` para iniciar la aplicación en modo de desarrollo.
 8. Abre tu navegador web y ve a `http://localhost:3000` para ver la aplicación en funcionamiento.
-
+9. Para hacer a un usuario administrador lo que tienes que hacer es agregar un campo en el documento de firestore de ese usuario que sea admin y con un booleano en true, de esa forma tendra todo el acceso a las funciones de administrador.
 ## Contribución
 
 Si deseas contribuir a este proyecto, por favor sigue los siguientes pasos:
